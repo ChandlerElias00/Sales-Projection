@@ -11,7 +11,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    /* Small polish for number inputs */
     input[type=number]::-webkit-outer-spin-button,
     input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     input[type=number] { -moz-appearance: textfield; }
@@ -26,7 +25,7 @@
         <a href="#past" class="hover:text-white text-slate-300">Past</a>
         <a href="#present" class="hover:text-white text-slate-300">Present</a>
         <a href="#future" class="hover:text-white text-slate-300">Future</a>
-        <a href="#assumptions" class="hover:text-white text-slate-300">Assumptions</a>
+        <a href="#history" class="hover:text-white text-slate-300">History</a>
       </nav>
     </div>
   </header>
@@ -36,12 +35,11 @@
     <div class="grid md:grid-cols-5 gap-6 items-center">
       <div class="md:col-span-3">
         <h1 class="text-2xl md:text-4xl font-bold leading-tight">
-          Where we have been. Where we are. Where distributions resume.
+          Where we’ve been. Where we are. When partner distributions come back.
         </h1>
         <p class="mt-3 text-slate-300 md:text-lg">
-          This page shows actual performance, current run rate, and a simple plan to restart partner distributions. 
-          Numbers are placeholders you can swap for live exports. 
-          The model updates when you tweak the assumptions panel.
+          This one-pager shows actual performance, current run rate, and a projection for resuming distributions. 
+          Enter your real numbers in the History tab. The rest updates automatically.
         </p>
       </div>
       <div class="md:col-span-2">
@@ -75,24 +73,23 @@
   <section id="past" class="max-w-7xl mx-auto px-4 py-8 md:py-12">
     <h2 class="text-xl md:text-2xl font-bold">Past</h2>
     <p class="mt-2 text-slate-300">
-      Historical sales with profit and expense trend. This is the why behind delayed distributions. 
-      When profit was thin, cash stayed in operations to cover payroll, food, and vendor terms.
+      Historical sales with profit and expense trend. When margin thinned, cash stayed in operations to cover payroll, food, and vendor terms.
     </p>
     <div class="mt-4 grid md:grid-cols-4 gap-4">
       <div class="rounded-xl bg-slate-900 border border-slate-800 p-4">
-        <div class="text-xs text-slate-400">Last Year Sales</div>
+        <div class="text-xs text-slate-400">Last 12 Months Sales</div>
         <div class="text-2xl font-semibold" id="pastSalesTotal">$0</div>
       </div>
       <div class="rounded-xl bg-slate-900 border border-slate-800 p-4">
-        <div class="text-xs text-slate-400">Last Year Profit</div>
+        <div class="text-xs text-slate-400">Last 12 Months Profit</div>
         <div class="text-2xl font-semibold" id="pastProfitTotal">$0</div>
       </div>
       <div class="rounded-xl bg-slate-900 border border-slate-800 p-4">
-        <div class="text-xs text-slate-400">Profit Margin</div>
+        <div class="text-xs text-slate-400">Average Profit Margin</div>
         <div class="text-2xl font-semibold" id="pastMargin">0%</div>
       </div>
       <div class="rounded-xl bg-slate-900 border border-slate-800 p-4">
-        <div class="text-xs text-slate-400">Cash Held For Ops</div>
+        <div class="text-xs text-slate-400">Operating Buffer Target</div>
         <div class="text-2xl font-semibold" id="pastOpsHold">$0</div>
       </div>
     </div>
@@ -105,8 +102,9 @@
   <section id="present" class="max-w-7xl mx-auto px-4 py-8 md:py-12">
     <h2 class="text-xl md:text-2xl font-bold">Present</h2>
     <p class="mt-2 text-slate-300">
-      Current month pace and spend. If we hold this pace and protect margin, cash for distributions begins to build.
+      Current month pace and spend. If we hold this pace and protect margin, distribution cash builds.
     </p>
+
     <div class="mt-4 grid md:grid-cols-4 gap-4">
       <div class="rounded-xl bg-slate-900 border border-slate-800 p-4">
         <div class="text-xs text-slate-400">This Month Sales Pace</div>
@@ -125,6 +123,7 @@
         <div class="text-2xl font-semibold" id="presentBreakeven">$0</div>
       </div>
     </div>
+
     <div class="mt-6 rounded-2xl bg-slate-900 border border-slate-800 p-4">
       <canvas id="presentChart" height="100"></canvas>
     </div>
@@ -134,8 +133,7 @@
   <section id="future" class="max-w-7xl mx-auto px-4 py-8 md:py-12">
     <h2 class="text-xl md:text-2xl font-bold">Future</h2>
     <p class="mt-2 text-slate-300">
-      A simple projection that shows when partner distributions resume under current margin and growth assumptions. 
-      Change the assumptions to see the resume month move.
+      Projection shows when partner distributions resume, based on your history and the settings entered in the History tab.
     </p>
 
     <div class="mt-4 grid md:grid-cols-4 gap-4">
@@ -162,189 +160,126 @@
     </div>
   </section>
 
-  <!-- Assumptions -->
-  <section id="assumptions" class="max-w-7xl mx-auto px-4 py-8 md:py-12">
-    <h2 class="text-xl md:text-2xl font-bold">Assumptions</h2>
+  <!-- History (edit values here) -->
+  <section id="history" class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+    <h2 class="text-xl md:text-2xl font-bold">History</h2>
     <p class="mt-2 text-slate-300">
-      Tune these to match your current sheet. The model updates live.
+      Enter your last 12 months of Sales and Expenses. Profit auto-calculates. At the bottom, set projection rules.
     </p>
-    <div class="mt-4 grid md:grid-cols-3 gap-4">
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-800">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-900 text-slate-300">
+          <tr>
+            <th class="text-left px-3 py-2">Month</th>
+            <th class="text-right px-3 py-2">Sales</th>
+            <th class="text-right px-3 py-2">Expenses</th>
+            <th class="text-right px-3 py-2">Profit</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody" class="divide-y divide-slate-800 bg-slate-950"></tbody>
+      </table>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
       <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
-        <label class="text-sm text-slate-300">Average Monthly Sales</label>
-        <input id="inpAvgSales" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="140000" />
-        <label class="mt-4 block text-sm text-slate-300">Profit Margin percent</label>
-        <input id="inpMargin" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="9" />
+        <div class="text-sm text-slate-300">This Month Sales Pace</div>
+        <input id="inpPresentSales" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="152000" />
+        <div class="mt-4 text-sm text-slate-300">This Month Expense Pace</div>
+        <input id="inpPresentExpense" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="137000" />
       </div>
+
       <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
-        <label class="text-sm text-slate-300">Monthly Fixed Costs</label>
-        <input id="inpFixed" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="68000" />
-        <label class="mt-4 block text-sm text-slate-300">Target Cash Buffer months</label>
-        <input id="inpBufferMonths" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="1.5" step="0.5" />
-      </div>
-      <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
-        <label class="text-sm text-slate-300">Monthly Growth percent</label>
+        <div class="text-sm text-slate-300">Projection Settings</div>
+        <div class="mt-2 text-xs text-slate-400">Default margin is auto-derived from your history, but you can override it.</div>
+        <label class="mt-3 block text-sm text-slate-300">Override Profit Margin percent (optional)</label>
+        <input id="inpMarginOverride" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" placeholder="leave blank to auto" />
+        <label class="mt-4 block text-sm text-slate-300">Monthly Growth percent</label>
         <input id="inpGrowth" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="2.5" />
+      </div>
+
+      <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4">
+        <div class="text-sm text-slate-300">Cash Policy</div>
+        <label class="block mt-2 text-sm text-slate-300">Operating Buffer Target (months of avg expenses)</label>
+        <input id="inpBufferMonths" type="number" step="0.5" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="1.5" />
         <label class="mt-4 block text-sm text-slate-300">Distribution percent of profit</label>
         <input id="inpDistPct" type="number" class="mt-2 w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2" value="50" />
       </div>
     </div>
+
     <div class="mt-4 flex gap-3">
       <button id="btnRecalc" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700">
         Recalculate
       </button>
-      <button id="btnReset" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700">
-        Reset
+      <button id="btnLoadDemo" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700">
+        Load Demo Data
+      </button>
+      <button id="btnClear" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700">
+        Clear All
       </button>
     </div>
   </section>
 
   <footer class="max-w-7xl mx-auto px-4 pb-10 text-xs text-slate-400">
-    Built for a straight talk with partners. Swap placeholder arrays with your live exports when ready.
+    Edit numbers in the History tab. Everything else updates. No fluff, just the story.
   </footer>
 
   <script>
-    // -------- Placeholder data you can swap with real exports ----------
-    // 12 months behind us
+    // ----- Months & initial demo data (you can overwrite in the History tab) -----
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const pastSales = [120000,125000,118000,130000,135000,138000,142000,145000,150000,148000,155000,160000];
-    const pastExpenses = [108000,111000,106000,114000,118000,120000,124000,126000,129000,127000,132000,136500];
-    const pastProfit   = pastSales.map((s,i)=>s - pastExpenses[i]);
+    let sales =  [120000,125000,118000,130000,135000,138000,142000,145000,150000,148000,155000,160000];
+    let expenses=[108000,111000,106000,114000,118000,120000,124000,126000,129000,127000,132000,136500];
 
-    // This month pace
-    let presentSalesPace = 152000;
-    let presentExpensePace = 137000;
-
-    // Defaults for assumptions
-    const defaults = {
-      avgSales: 140000,
-      marginPct: 9,
-      fixed: 68000,
-      bufferMonths: 1.5,
-      growthPct: 2.5,
-      distPct: 50
-    };
-
-    // -------- Helpers ----------
+    // DOM helpers
     const $ = (id)=>document.getElementById(id);
     const fmt = (n)=> n.toLocaleString(undefined,{style:"currency",currency:"USD",maximumFractionDigits:0});
-    const pct = (n)=> (Math.round(n*10)/10).toString() + "%";
+    const pct = (n)=> (Math.round(n*10)/10).toString()+"%";
 
-    function readAssumptions(){
-      return {
-        avgSales: +$("inpAvgSales").value || defaults.avgSales,
-        marginPct: +$("inpMargin").value || defaults.marginPct,
-        fixed: +$("inpFixed").value || defaults.fixed,
-        bufferMonths: +$("inpBufferMonths").value || defaults.bufferMonths,
-        growthPct: +$("inpGrowth").value || defaults.growthPct,
-        distPct: +$("inpDistPct").value || defaults.distPct
-      };
-    }
-
-    function resetAssumptions(){
-      $("inpAvgSales").value = defaults.avgSales;
-      $("inpMargin").value = defaults.marginPct;
-      $("inpFixed").value = defaults.fixed;
-      $("inpBufferMonths").value = defaults.bufferMonths;
-      $("inpGrowth").value = defaults.growthPct;
-      $("inpDistPct").value = defaults.distPct;
-    }
-
-    // -------- Calculations ----------
-    function calcKpis(){
-      const asum = readAssumptions();
-
-      // Past
-      const lastYearSales = pastSales.reduce((a,b)=>a+b,0);
-      const lastYearProfit = pastProfit.reduce((a,b)=>a+b,0);
-      const lastYearMargin = lastYearProfit / lastYearSales;
-
-      // YTD assume same as past arrays for demo
-      const ytdSales = lastYearSales;
-      const ytdProfit = lastYearProfit;
-
-      // Ops hold equals one buffer of fixed costs
-      const opsHold = asum.fixed * asum.bufferMonths;
-
-      // Present
-      const presentProfitPace = Math.max(0, presentSalesPace - presentExpensePace);
-      const expenseRatio = presentExpensePace / presentSalesPace;
-
-      // Breakeven given fixed and margin
-      const margin = asum.marginPct / 100;
-      const breakeven = asum.fixed / Math.max(0.0001, margin);
-
-      // Future projection next 6 months
-      let mSales = asum.avgSales;
-      let growth = 1 + asum.growthPct/100;
-      let sixSales = 0;
-      let sixProfit = 0;
-      let distPool = 0;
-      let resumeMonth = "TBD";
-      let monthIdxStart = new Date().getMonth();
-      let projectedLine = [];
-
-      for(let i=1;i<=12;i++){
-        if(i<=6){ sixSales += mSales; }
-        const profit = mSales * margin;
-        if(i<=6){ sixProfit += profit; }
-        // Distributions only when cash above opsHold
-        // Simple model: pool is margin profit minus desire to rebuild buffer until full
-        distPool += Math.max(0, profit);
-        if(resumeMonth==="TBD" && distPool >= opsHold){
-          // once buffer rebuilt, start distributions next month
-          const idx = (monthIdxStart + i) % 12;
-          resumeMonth = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][idx];
-        }
-        projectedLine.push(mSales);
-        mSales *= growth;
+    // Build history grid
+    function buildHistoryTable(){
+      const body = $("historyBody");
+      body.innerHTML = "";
+      for(let i=0;i<12;i++){
+        const profit = Math.max(0, (sales[i]||0) - (expenses[i]||0));
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td class="px-3 py-2">${months[i]}</td>
+          <td class="px-3 py-2 text-right">
+            <input type="number" data-row="${i}" data-kind="sales" class="w-32 text-right bg-slate-800 border border-slate-700 rounded-lg px-2 py-1" value="${sales[i]||""}">
+          </td>
+          <td class="px-3 py-2 text-right">
+            <input type="number" data-row="${i}" data-kind="expenses" class="w-32 text-right bg-slate-800 border border-slate-700 rounded-lg px-2 py-1" value="${expenses[i]||""}">
+          </td>
+          <td class="px-3 py-2 text-right text-slate-200" id="profit-${i}">${fmt(profit)}</td>
+        `;
+        body.appendChild(tr);
       }
-
-      // Planned distribution rate
-      const distPct = asum.distPct/100;
-      const projectedDist6 = Math.max(0, sixProfit - opsHold) * distPct;
-
-      // Update text KPIs
-      $("kpiYtdSales").textContent = fmt(ytdSales);
-      $("kpiYtdProfit").textContent = fmt(ytdProfit);
-      $("kpiDistPool").textContent = fmt(Math.max(0, ytdProfit - opsHold));
-      $("kpiResumeMonth").textContent = resumeMonth;
-
-      $("pastSalesTotal").textContent = fmt(lastYearSales);
-      $("pastProfitTotal").textContent = fmt(lastYearProfit);
-      $("pastMargin").textContent = pct(lastYearMargin*100);
-      $("pastOpsHold").textContent = fmt(opsHold);
-
-      $("presentSales").textContent = fmt(presentSalesPace);
-      $("presentProfit").textContent = fmt(presentProfitPace);
-      $("presentExpenseRatio").textContent = pct(expenseRatio*100);
-      $("presentBreakeven").textContent = fmt(breakeven);
-
-      $("futureSales6").textContent = fmt(sixSales);
-      $("futureProfit6").textContent = fmt(sixProfit);
-      $("futureDist6").textContent = fmt(Math.max(0, projectedDist6));
-      $("futureResume").textContent = resumeMonth;
-
-      // Status line
-      $("statusBadge").textContent = presentProfitPace>0 ? "On path to resume with growth" : "Tight margin. Protect cost and sales mix";
-
-      return { projectedLine };
+      // wire inputs
+      body.querySelectorAll("input").forEach(inp=>{
+        inp.addEventListener("input", ()=>{
+          const idx = +inp.dataset.row;
+          const kind = inp.dataset.kind;
+          const val = Number(inp.value||0);
+          if(kind==="sales"){ sales[idx] = val; } else { expenses[idx] = val; }
+          $("profit-"+idx).textContent = fmt(Math.max(0, (sales[idx]||0) - (expenses[idx]||0)));
+        });
+      });
     }
 
-    // -------- Charts ----------
+    // Charts
     let pastChart, presentChart, futureChart;
-
     function buildCharts(projectedLine){
-      // Destroy if exist
       [pastChart,presentChart,futureChart].forEach(c=>{ if(c){ c.destroy(); } });
 
-      // Past
+      const pastProfit = sales.map((s,i)=> Math.max(0, s - (expenses[i]||0)));
+
       pastChart = new Chart(document.getElementById("pastChart"), {
         type: "line",
         data: {
           labels: months,
           datasets: [
-            { label: "Sales", data: pastSales, borderWidth: 2, tension: .25 },
-            { label: "Expenses", data: pastExpenses, borderWidth: 2, tension: .25 },
+            { label: "Sales", data: sales, borderWidth: 2, tension: .25 },
+            { label: "Expenses", data: expenses, borderWidth: 2, tension: .25 },
             { label: "Profit", data: pastProfit, borderWidth: 2, tension: .25 }
           ]
         },
@@ -357,13 +292,16 @@
         }
       });
 
-      // Present
       presentChart = new Chart(document.getElementById("presentChart"), {
         type: "bar",
         data: {
           labels: ["Sales pace","Expense pace","Profit pace"],
           datasets: [
-            { label: "Current Month", data: [presentSalesPace, presentExpensePace, Math.max(0,presentSalesPace-presentExpensePace)] }
+            { label: "Current Month", data: [
+              Number($("inpPresentSales").value||0),
+              Number($("inpPresentExpense").value||0),
+              Math.max(0, Number($("inpPresentSales").value||0) - Number($("inpPresentExpense").value||0))
+            ]}
           ]
         },
         options: {
@@ -375,7 +313,6 @@
         }
       });
 
-      // Future
       const futMonths = Array.from({length:12},(_,i)=>{
         const idx = (new Date().getMonth()+i+1)%12;
         return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][idx];
@@ -399,17 +336,110 @@
       });
     }
 
+    // Core calc
     function recalc(){
-      const { projectedLine } = calcKpis();
-      buildCharts(projectedLine);
+      const presentSales = Number($("inpPresentSales").value||0);
+      const presentExpense = Number($("inpPresentExpense").value||0);
+      const presentProfit = Math.max(0, presentSales - presentExpense);
+
+      // History aggregates
+      const ytdSales = sales.reduce((a,b)=>a+(b||0),0);
+      const ytdExpenses = expenses.reduce((a,b)=>a+(b||0),0);
+      const ytdProfit = Math.max(0, ytdSales - ytdExpenses);
+
+      const margins = sales.map((s,i)=> s>0 ? Math.max(0, (s - (expenses[i]||0)) / s) : 0);
+      const avgMargin = margins.reduce((a,b)=>a+b,0) / (margins.length || 1);
+
+      // Settings
+      const marginOverride = Number($("inpMarginOverride").value);
+      const margin = isNaN(marginOverride) || marginOverride<=0 ? avgMargin : marginOverride/100;
+      const growth = 1 + Number($("inpGrowth").value||0)/100;
+      const bufferMonths = Number($("inpBufferMonths").value||0);
+      const distPct = Number($("inpDistPct").value||0)/100;
+
+      // Buffer target based on avg expenses
+      const avgExpenses = (ytdExpenses/12) || 0;
+      const opsHold = avgExpenses * bufferMonths;
+
+      // Breakeven = Fixed approx via avg expenses - variable piece; we’ll estimate using margin
+      const breakeven = margin>0 ? (avgExpenses / margin) : 0;
+
+      // Future projection (12 months forward)
+      let startSales = (ytdSales/12) || presentSales || 0;
+      let sixSales = 0, sixProfit = 0, distPool = Math.max(0, ytdProfit - opsHold);
+      let resumeMonth = "TBD";
+      const projected = [];
+      const monthIdxStart = new Date().getMonth();
+
+      for(let i=1;i<=12;i++){
+        projected.push(startSales);
+        const profit = startSales * margin;
+        if(i<=6){ sixSales += startSales; sixProfit += profit; }
+        distPool += Math.max(0, profit * distPct); // pool grows by distributable portion
+        if(resumeMonth==="TBD" && distPool>0){ // resume when there’s distributable cash
+          const idx = (monthIdxStart + i) % 12;
+          resumeMonth = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][idx];
+        }
+        startSales *= growth;
+      }
+
+      // KPIs
+      $("kpiYtdSales").textContent = fmt(ytdSales);
+      $("kpiYtdProfit").textContent = fmt(ytdProfit);
+      $("kpiDistPool").textContent = fmt(Math.max(0, distPool));
+      $("kpiResumeMonth").textContent = resumeMonth;
+
+      $("pastSalesTotal").textContent = fmt(ytdSales);
+      $("pastProfitTotal").textContent = fmt(ytdProfit);
+      $("pastMargin").textContent = pct((margin*100) || 0);
+      $("pastOpsHold").textContent = fmt(opsHold);
+
+      $("presentSales").textContent = fmt(presentSales);
+      $("presentProfit").textContent = fmt(presentProfit);
+      $("presentExpenseRatio").textContent = pct((presentExpense/presentSales)*100 || 0);
+      $("presentBreakeven").textContent = fmt(breakeven);
+
+      $("futureSales6").textContent = fmt(sixSales);
+      $("futureProfit6").textContent = fmt(sixProfit);
+      $("futureDist6").textContent = fmt(Math.max(0, sixProfit*distPct));
+      $("futureResume").textContent = resumeMonth;
+
+      $("statusBadge").textContent = presentProfit>0 ? "On path to resume with growth" : "Tight margin. Protect cost and mix.";
+
+      buildCharts(projected);
     }
 
-    // Wire buttons
+    // Buttons
     $("btnRecalc").addEventListener("click", recalc);
-    $("btnReset").addEventListener("click", ()=>{ resetAssumptions(); recalc(); });
+    $("btnLoadDemo").addEventListener("click", ()=>{
+      sales =  [120000,125000,118000,130000,135000,138000,142000,145000,150000,148000,155000,160000];
+      expenses=[108000,111000,106000,114000,118000,120000,124000,126000,129000,127000,132000,136500];
+      $("inpPresentSales").value = 152000;
+      $("inpPresentExpense").value = 137000;
+      $("inpMarginOverride").value = "";
+      $("inpGrowth").value = 2.5;
+      $("inpBufferMonths").value = 1.5;
+      $("inpDistPct").value = 50;
+      buildHistoryTable();
+      recalc();
+    });
+    $("btnClear").addEventListener("click", ()=>{
+      sales = new Array(12).fill(0);
+      expenses = new Array(12).fill(0);
+      $("inpPresentSales").value = "";
+      $("inpPresentExpense").value = "";
+      $("inpMarginOverride").value = "";
+      $("inpGrowth").value = 0;
+      $("inpBufferMonths").value = 1;
+      $("inpDistPct").value = 0;
+      buildHistoryTable();
+      recalc();
+    });
 
     // First render
+    buildHistoryTable();
     recalc();
   </script>
 </body>
 </html>
+
